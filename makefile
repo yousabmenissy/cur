@@ -6,7 +6,7 @@ CFLAGS=-I${lib} -O3
 
 build:
 	@echo "building..."
-	${CC} ${IN} -o ${OUT} ${CFLAGS}
+	@${CC} ${IN} -o ${OUT} ${CFLAGS}
 
 install: build
 	@echo "installing..."
@@ -14,7 +14,8 @@ install: build
 	@echo "done"
 	@rm ${OUT}
 
-perf: build
+perf:
+	${CC} ${IN} -o ${OUT} ${CFLAGS}
 	gcc main.c lib/*.c -S -fno-asynchronous-unwind-tables -Ilib
 	cat *.s > seed.s
 	sudo perf stat ./cur seed.s -w
