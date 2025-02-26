@@ -123,7 +123,7 @@ rm *.s -f cur
 
 The characters '\n', '\t' and '\s' are treated as blanks.
 
-- blanks at the start of the line are ignored.
+- tabs and spaces at the start of the line are ignored.
 - tabs and spaces before the end of the line are ignored.
 - multible lines of blank characters are all replaced with a single '\n' character.
 - cur will make sure the last character in the file is a new line, '\n'.
@@ -157,17 +157,16 @@ Expressions that start with '.', or compose of a signle digit, and end with ':' 
 lines that start with '#' or '//' are treated as single line comments.
 
 - they follow the indentaion of the previous line
-- if '//' is used, cur will replace with '#' followed by a space.
+- if '//' is used, cur will replace it with '#' followed by a space.
 - blank lines at the start of the comment are ignored.
-- comments that come after other expressions are not formated
+- comments that come after other expressions in the line are not formated
 
 ### Multi line comments
 
 lines that start with /* are treated as multi-line comment untill */ or end of the file is reached.
 
-- blank lines at the start and end of the comment are ignored.
+- blank lines at the start and end of the comment are ignored, other blanks are uneffected.
 - everything inside the comment is always at indentation level 1.
-- blank characters in the middle of the comment are not formatted.
 - the /* and */ are set on their own lines with no indentaion.
 
 ### Instructions
