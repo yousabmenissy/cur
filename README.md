@@ -20,8 +20,6 @@ cur is the result of my long-brewing frustration with the complete lack of open 
   - [Multi line comments](#multi-line-comments)
   - [Instructions](#instructions)
 - [Example](#example)
-  - [Before](#before)
-  - [After](#after)
 - [Projects using cur](#projects-using-cur)
 - [License](#license)
 
