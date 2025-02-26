@@ -142,14 +142,16 @@ Expressions that start with '.', does not end with ':' are treated as directives
 Expressions that does not start with '.', does not compose of a signle digit, and end with ':' are treated as global labels.
 
 - they are always at indentaion level 0.
-- cur will allow either a space or a new line to follow the ':'.
-- if ':' is not followed by either a space or a new line, cur will inject a new line after the colon and treats the rest as a different line
+- cur will allow either a space, tab or a new line to follow the ':'.
+- if ':' is not followed by either a space, tab or a new line, cur will inject a new line after the colon and treats the rest as a different line
 
 ### Local labels
 
 Expressions that start with '.', or compose of a signle digit, and end with ':' are treated as local labels.
 
 - they are always at indentaion level 1.
+- cur will allow either a space, tab or a new line to follow the ':'.
+- if ':' is not followed by either a space, tab or a new line, cur will inject a new line after the colon and treats the rest as a different line
 - a new line will be inserted before it if the previous expression was an instruction.
 
 ### Signle line comments
@@ -192,11 +194,12 @@ lines that is not recognized as directives, labels, or comments are treated as i
 
         .global basename
  .type basename, @function
-    basename: # basename(path)
+
+  //       basename(path)
+    basename: 
 movq %rdi, %rsi
 xor %rax,    %rax
 
-//      find the '/'
  .LPBN0:lodsb
     cmpb $'/',%al
     cmove    %rsi,%rdi
@@ -219,11 +222,12 @@ ret
 
 .global basename
 .type basename, @function
-basename: # basename(path)
+
+# basename(path)
+basename:
     movq  %rdi, %rsi
     xor   %rax, %rax
 
-    # find the '/'
     .LPBN0:
     lodsb
     cmpb   $'/', %al

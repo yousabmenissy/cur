@@ -11,7 +11,8 @@ void processln(struct line *ln) {
 
   if (*tokenStart == '.') { // Directive or label?
     if (*(tokenEnd - 1) == ':' || hasc(tokenStart, tokenEnd, ':')) { // label
-      if (ln->type == INSTRUCTION) addc(ln, '\n');
+      if (ln->type == INSTRUCTION && (strncmp((ln->dst - 2), "\n\n", 2)) != 0)
+        addc(ln, '\n');
       ln->type = LLABEL;
       putLabel(ln);
     } else { // directive
@@ -20,7 +21,8 @@ void processln(struct line *ln) {
     }
   } else if (*(tokenEnd - 1) == ':' || hasc(tokenStart, tokenEnd, ':')) {
     if (*tokenStart >= '1' && *tokenStart <= '9') { // Numeric label
-      if (ln->type == INSTRUCTION) addc(ln, '\n');
+      if (ln->type == INSTRUCTION && (strncmp((ln->dst - 2), "\n\n", 2)) != 0)
+        addc(ln, '\n');
       ln->type = LLABEL;
       putLabel(ln);
     } else { // Global label
