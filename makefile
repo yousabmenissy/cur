@@ -19,7 +19,7 @@ perf:
 	gcc main.c lib/*.c -S -fno-asynchronous-unwind-tables -Ilib
 	cat *.s > seed.s
 	sudo perf stat ./cur seed.s -w
-	rm *.s -f ${OUT}
+	rm -f *.s ${OUT}
 
 report:
 	${CC} ${IN} -o ${OUT} ${CFLAGS}
@@ -30,4 +30,4 @@ report:
 	rm -f *.s *.data ${OUT} 
 
 clean:
-	rm *.s -f ${OUT}
+	rm -f *.s ${OUT}
