@@ -1,9 +1,7 @@
 #include "cur.h"
 
 inline void putSComment(struct line *ln) {
-  for (int i = 0; i < ln->indentation; i++) {
-    addnc(ln, ' ', 4);
-  }
+  if (ln->type == INSTRUCTION || ln->type == LLABEL) addnc(ln, ' ', 4);
 
   addstr(ln, "# ", 2);
   ln->srcStart += 2;
@@ -17,14 +15,17 @@ inline void putSComment(struct line *ln) {
 
 inline void putMComment(struct line *ln) {
   char *endComment = strstr(ln->srcStart, "*/");
-  if (!endComment) endComment = strstr(ln->srcStart, "\0");
+  if (!endComment) endComment = strchr(ln->srcStart, '\0'); // End of buffer
+
+  if (ISBLANK((endComment - 1))) memset(endComment, ' ', 2);
+  while (ISBLANK((endComment - 1))) endComment--; // Skip trailing blank lines
 
   addstr(ln, "/*", 2);
   ln->srcStart += 2;
   addc(ln, '\n');
+  SKIPBLANKS(ln->srcStart); // Skip starting blank lines
 
   while (ln->srcStart < endComment) { // Indent each line
-    SKIPBLANKS(ln->srcStart);
     addnc(ln, ' ', 4);
 
     ln->srcEnd = strchr(ln->srcStart, '\n');
@@ -39,15 +40,11 @@ inline void putMComment(struct line *ln) {
     ln->srcStart += len;
     SKIPSPACES(ln->srcStart);
   }
-  SKIPBLANKS(ln->srcStart);
 
-  if (*(ln->srcEnd - 1) != '\n') addc(ln, '\n');
+  addc(ln, '\n');
   addstr(ln, "*/", 2);
   ln->srcStart = endComment + 2;
+  
   SKIPSPACES(ln->srcStart);
-  if (*ln->srcStart == '\n') {
-    addc(ln, '\n');
-    ln->srcStart++;
-  } else
-    addc(ln, '\n');
+  addc(ln, '\n');
 }

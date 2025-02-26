@@ -9,9 +9,7 @@ inline bool isInstruction(char *src) {
   SKIPSPACES(lnStart);
 
   char *tokenStart = lnStart;
-  char  oldLnEnd = *lnEnd;
-  *lnEnd = '\0';
-  char *tokenEnd = strchr(tokenStart, ' ');
+  char *tokenEnd = findc(tokenStart, lnEnd, ' ');
   if (!tokenEnd) tokenEnd = lnEnd;
 
   // clang-format off
@@ -19,12 +17,8 @@ inline bool isInstruction(char *src) {
     if (*tokenStart != '.' 
         && (*tokenStart < '1' || *tokenStart > '9')
         && (*(tokenEnd - 1) != ':' || !hasc(tokenStart, tokenEnd, ':'))) { // Is an instruction
-      *lnEnd = oldLnEnd;
       return true;
     }
   }
-  // clang-format on
-
-  *lnEnd = oldLnEnd;
   return false;
 }

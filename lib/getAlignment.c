@@ -5,7 +5,7 @@ inline int getAlignment(char *start, char *end) {
   char *lnStart = start;
   char *lnEnd;
 
-  while ((lnEnd = strchr(lnStart, '\n')) != NULL && lnEnd < end) {
+  while ((lnEnd = findc(lnStart, end, '\n')) != NULL) {
     SKIPBLANKS(lnStart);
 
     // Skip comments
@@ -22,11 +22,11 @@ inline int getAlignment(char *start, char *end) {
     if (isInstruction(lnStart)) {
       char *tokenStart = lnStart;
       char *tokenEnd = lnStart;
-      while (tokenEnd < lnEnd && (*tokenEnd != ' ' && *tokenEnd != '\t'))
+      while (tokenEnd < lnEnd && !ISSPACE(tokenEnd))
         tokenEnd++;
 
       // Skip instructions without operands
-      if (*tokenEnd != ' ' && *tokenEnd != '\t') {
+      if (!ISSPACE(tokenEnd)) {
         lnStart = ++lnEnd;
         continue;
       }
@@ -38,6 +38,7 @@ inline int getAlignment(char *start, char *end) {
         continue;
       }
     }
+    
     lnStart = ++lnEnd;
   }
 

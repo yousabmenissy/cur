@@ -1,7 +1,7 @@
 #include "cur.h"
 
 inline void addstr(struct line *ln, char *str, int len) {
-  strncpy(ln->dst, str, len);
+  memcpy(ln->dst, str, len);
   ln->dst += len;
   Count += len;
 }
@@ -19,8 +19,11 @@ inline void addnc(struct line *ln, char chr, int count) {
 }
 
 inline bool hasc(char *start, char *end, char chr) {
-  char *token = start;
-  while (token < end && *token != chr) token++;
-  if (*token == chr) return true;
-  return false;
+  if (!start || !end || end < start) return NULL;
+  return (memchr(start, chr, end - start) != NULL);
+}
+
+inline char *findc(char *start, char *end, char chr){
+  if (!start || !end || end < start) return NULL;
+  return memchr(start, chr, end - start);
 }
