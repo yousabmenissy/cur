@@ -21,5 +21,13 @@ perf:
 	sudo perf stat ./cur seed.s -w
 	rm *.s -f ${OUT}
 
+report:
+	${CC} ${IN} -o ${OUT} ${CFLAGS}
+	gcc main.c lib/*.c -S -fno-asynchronous-unwind-tables -Ilib
+	cat *.s > seed.s
+	sudo perf record ./cur seed.s -w
+	perf report
+	rm -f *.s *.data ${OUT} 
+
 clean:
 	rm *.s -f ${OUT}

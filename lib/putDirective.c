@@ -1,9 +1,10 @@
 #include "cur.h"
 
 void putDirective(struct line *ln) {
-  // Find space or tab
   char *tokenEnd = ln->srcStart;
-  while (tokenEnd < ln->srcEnd && !ISSPACE(tokenEnd)) tokenEnd++;
+
+  while (tokenEnd < ln->srcEnd && !ISSPACE(tokenEnd))
+    tokenEnd++; // Find space or tab
 
   if (!ISSPACE(tokenEnd)) { // No operands
     int len = (int)(ln->srcEnd - ln->srcStart);
